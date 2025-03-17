@@ -1,0 +1,1351 @@
+Del 1
+Skapa en Neo4j-graphdatabas som innehåller:
+(se https://www.regeringen.se/sveriges-regering)
+
+Nodtyper
+Med nodtyp menar vi en nod med en viss label:
+
+//Sveriges regerings ministrar/statsråd  - namn, titel/ministerroll, födelseår (se respektive CV), motto, partitillhörighet:
+
+
+neo4j$  MATCH (n:Minister) RETURN n 
+══════════════════════════════════════════════════════════════════════╕
+│n                                                                     │
+╞══════════════════════════════════════════════════════════════════════╡
+│(:Minister {titel: "Statsminister",partitillhorighet: "Moderaterna",na│
+│mn: "Ulf Kristersson",motto: "",födelsedag: "1963",beskrivning: "Stats│
+│minister"})                                                           │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Minister {titel: "EU-minister",partitillhorighet: "Moderaterna",namn│
+│: "Jessica Rosencrantz",motto: "",födelsedag: "1987",beskrivning: "EU-│
+│minister som ansvarar för EU-frågor och nordiska relationer."})       │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Minister {titel: "Arbetsmarknads- och integrationsminister",partitil│
+│lhorighet: "Liberalerna",namn: "Mats Persson",motto: "Sverige ska åter│
+│upprätta utbildnings- och arbetslinjen och bli tydlig med vilka grundl│
+│äggande värderingar som gäller i vår liberala demokrati. Alla kan inte│
+│ leva på bidrag men alla kan bidra med något. Sverige ska välja dig, d│
+│u ska välja Sverige.",födelsedag: "1980"})                            │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Minister {titel: "Jämställdhets- och arbetslivsminister",partitillho│
+│righet: "Liberalerna",namn: "Paulina Brandberg",motto: "Vi växlar upp │
+│arbetet mot mäns våld mot kvinnor, annat våld i nära relationer och de│
+│t hedersrelaterade våldet och förtrycket. Alla former av våld så som f│
+│ysiskt, psykiskt, ekonomiskt och sexuellt ska upphöra. Det handlar om │
+│rätten att äga sitt liv och bestämma över sin kropp och sin ekonomi. V│
+│i behöver också fokusera mer på en rättvis och jämställd hälsa och att│
+│ alla kvinnor och män får rätt till en god arbetsmiljö.",födelsedag: "│
+│1983"})                                                               │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Minister {titel: "Finansminister",partitillhorighet: "Moderaterna",n│
+│amn: "Elisabeth Svantesson",motto: "",födelsedag: "1967"})            │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Minister {titel: "Civilminister",partitillhorighet: "Kristdemokrater│
+│na",namn: "Erik Slottner",motto: "Kommuner och regioner står inför tuf│
+│fa tider dels med ekonomisk oro dels med krig i vårt närområde. Mitt u│
+│ppdrag är att verka för gott och fungerande samarbete mellan kommuner,│
+│ regioner och stat så att alla nivåer ska kunna genomföra sina viktiga│
+│ välfärdsuppdrag på bästa sätt. Som civilminister är mitt fokus också │
+│på en välfungerande digitalisering inom offentlig förvaltning för att │
+│förbättra servicen för medborgare och öka effektiviteten hos våra mynd│
+│igheter.",födelsedag: "1980"})                                        │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Minister {titel: "Finansmarknadsminister",partitillhorighet: "Modera│
+│terna",namn: "Niklas Wykman",motto: "För att svensk ekonomi ska växa o│
+│ch hushållen få förbättringar som kommer alla till del behövs en ansva│
+│rsfull ekonomisk politik. Finansiell stabilitet är en hörnsten i detta│
+│. Sverige ska ha ett stabilt och effektivt finansiellt system. Att try│
+│ggheten ökar och Sveriges säkerhet stärks är centralt – därför är det │
+│viktigt att penningtvätt bekämpas, att vi stärker beredskapen mot cybe│
+│rhot och att Sverige står rustat att kunna motverka och hantera ekonom│
+│iska störningar. Med det som grund skapar vi goda förutsättningar att │
+│leda Sverige mot högre sysselsättning, ökad trygghet och stark ekonomi│
+│sk tillväxt.",födelsedag: "1981-01-01"})                              │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Minister {titel: "Försvarsminister",partitillhorighet: "Moderaterna"│
+│,namn: "Pål Jonson",motto: "Försvaret av Sverige är en kärnuppgift för│
+│ staten och grundläggande för vår demokrati och frihet. Ett starkare f│
+│örsvar, medlemskap i Nato och stöd till Ukraina stärker vår säkerhet i│
+│ en orolig tid.",födelsedag: "1972"})                                 │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Minister {titel: "Minister för civilt försvar",partitillhorighet: "M│
+│oderaterna",namn: "Carl-Oskar Bohlin",motto: "Försvaret av Sverige och│
+│ våra allierade kräver ett starkt civilt försvar. Genom att bygga mots│
+│tåndskraft i hela samhället ökar Sveriges säkerhet i ett allt svårare │
+│säkerhetspolitiskt läge. Det civila försvaret ska vara starkt nog att │
+│bära det svenska samhället i sina grundläggande funktioner och samtidi│
+│gt ha förmåga att bistå det militära försvaret i att lösa sina uppgift│
+│er.",ansvaromrade: "Samhällets krisberedskap, inklusive civilt försvar│
+│",födelsedag: "1986"})                                                │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Minister {titel: "Justitieminister",partitillhorighet: "Moderaterna"│
+│,namn: "Gunnar Strömmer",motto: "Regeringen ska bedriva en offensiv kr│
+│iminalpolitik för att få ordning på Sverige. Det grova våldet och den │
+│organiserade brottsligheten ska bekämpas. Samtidigt skiftar fokus från│
+│ gärningsman till brottsoffer och samhällsskydd.",födelsedag: "1972"})│
+├──────────────────────────────────────────────────────────────────────┤
+│(:Minister {titel: "Migrationsminister",partitillhorighet: "Moderatern│
+│a",namn: "Johan Forssell",motto: "Regeringen ska bedriva en offensiv k│
+│riminalpolitik för att få ordning på Sverige. Det grova våldet och den│
+│ organiserade brottsligheten ska bekämpas. Samtidigt skiftar fokus frå│
+│n gärningsman till brottsoffer och samhällsskydd.",födelsedag: "1972"}│
+│)                                                                     │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Minister {titel: "Energi- och näringsminister samt vice statsministe│
+│r",partitillhorighet: "Kristdemokraterna",namn: "Ebba Busch",motto: "I│
+│ngen",födelsedag: "1987"})                                            │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Minister {titel: "Klimat- och miljöminister",partitillhorighet: "Lib│
+│eralerna",namn: "Romina Pourmokhtari",motto: "Ingen",födelsedag: "1995│
+│"})                                                                   │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Minister {titel: "Kulturminister",partitillhorighet: "Moderaterna",n│
+│amn: "Parisa Liljestrand",motto: "Jag vill vara en kulturminister för │
+│medborgarna, oavsett vem man är eller var man kommer ifrån. Jag är sto│
+│lt över att företräda en regering som gjort det till sin uppgift att v│
+│ärna det svenska kulturarvet och skapa möjligheter för att det ska kom│
+│ma fler till del.",födelsedag: "1983"})                               │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Minister {titel: "Landsbygdsminister",partitillhorighet: "Kristdemok│
+│raterna",namn: "Peter Kullgren",motto: "Vi ska leverera goda förutsätt│
+│ningar att leva i hela landet, värna vårt hållbara skogsbruk och säker│
+│ställa konkurrenskraftiga villkor för det svenska jordbruket.",födelse│
+│dag: "1981"})                                                         │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Minister {titel: "Infrastruktur- och bostadsminister",partitillhorig│
+│het: "Kristdemokraterna",namn: "Andreas Carlson",motto: "Ingen",födels│
+│edag: "1984"})                                                        │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Minister {titel: "Socialminister",partitillhorighet: "Kristdemokrate│
+│rna",namn: "Jakob Forssmed",motto: "Jag vill göra livet lite lättare a│
+│tt leva för människor genom att skapa bra förutsättningar för hälsa oc│
+│h gemenskap.",födelsedag: "1974"})                                    │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Minister {titel: "Sjukvårdsminister",partitillhorighet: "Kristdemokr│
+│aterna",namn: "Acko Ankarberg Johansson",motto: "Sverige ska erbjuda e│
+│n god vård i tid och en jämlik vård i hela landet. Vägen dit är en utb│
+│yggd primärvård, fler vårdplatser och kortare köer till specialistvård│
+│en. Vi vill också införa en nationell vårdförmedling för att öka tillg│
+│ången till vård och utreda möjligheterna för hur vi helt eller delvis │
+│inför ett statligt huvudmannaskap för sjukvården för att säkra tillgån│
+│g och kvalitet.",födelsedag: "1964"})                                 │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Minister {titel: "Äldre- och socialförsäkringsminister",partitillhor│
+│ighet: "Moderaterna",namn: "Anna Tenje",motto: "Det är hög tid att vi │
+│arbetar samlat kring äldrefrågorna för att ge äldre en värdig ålderdom│
+│ med god livskvalitet. Dels ska vi värna om dem som arbetat ett helt a│
+│rbetsliv genom att trygga deras ekonomi och behov av god omsorg. Dels │
+│ska vi ta vara på det höga värde som våra äldre har för hela samhället│
+│, motverka åldersdiskriminering och ta vara på den kunskap och erfaren│
+│het som de bidrar med.",födelsedag: "1977"})                          │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Minister {titel: "Socialtjänstminister",partitillhorighet: "Moderate│
+│rna",namn: "Camilla Waltersson Grönvall",motto: "En stark socialtjänst│
+│ är ett av våra viktigaste verktyg för att förebygga brott. Vi vill re│
+│formera socialtjänstlagen så att socialtjänsten stärks i sitt mandat a│
+│tt till exempel besluta om fler obligatoriska insatser så att sociala │
+│problem förebyggs tidigt. Personer med funktionsnedsättning har rätt t│
+│ill ett fritt och självständigt liv utan diskriminering. Vi kommer att│
+│ se över åtgärder för ett statligt huvudmannaskap inom ramen för LSS o│
+│ch integrera funktionsrättsperspektivet i fler samhällsområden."})    │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Minister {titel: "Utbildningsminister",partitillhorighet: "Liberaler│
+│na",namn: "Johan Pehrson",motto: "Ingen",födelsedag: "1968"})         │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Minister {titel: "Skolminister",partitillhorighet: "Liberalerna",nam│
+│n: "Lotta Edholm",motto: "Skolan måste tillbaka till grunderna. Mycket│
+│ kan bli bättre i skolan med mer ordning och färre experiment. Särskil│
+│t för de barn som behöver skolan mest.",födelsedag: "1965"})          │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Minister {titel: "Utrikesminister",partitillhorighet: "Moderaterna",│
+│namn: "Maria Malmer Stenergard",motto: "Ingen",födelsedag: "1981"})   │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Minister {titel: "Bistånds- och utrikeshandelsminister",partitillhor│
+│ighet: "Moderaterna",namn: "Benjamin Dousa",motto: "Ingen",födelsedag:│
+│ "1992"})                                                             │
+└──────────────────────────────────────────────────---------------------
+
+
+
+//De olika departmenten - namn och beskrivning:
+
+
+neo4j$  MATCH (n:Departement) RETURN n
+╒══════════════════════════════════════════════════════════════════════╕
+│n                                                                     │
+╞══════════════════════════════════════════════════════════════════════╡
+│(:Departement {namn: "Statsrådsberedningen",beskrivning: "Statsrådsber│
+│edningen ansvarar för att leda och samordna arbetet i Regeringskanslie│
+│t."})                                                                 │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Departement {namn: "Arbetsmarknadsdepartementet",beskrivning: "Arbet│
+│smarknadsdepartementet ansvarar för arbetsmarknad, arbetsrätt, arbetsm│
+│iljö, jämställdhet och mänskliga rättigheter på nationell nivå samt ar│
+│betet mot rasism och diskriminering och för att stärka hbtqi-personers│
+│ rättigheter. Departementet ansvarar också för integrationsfrågor och │
+│arbetet mot utanförskap."})                                           │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Departement {namn: "Finansdepartementet",beskrivning: "Departementet│
+│ arbetar med frågor som rör ekonomisk politik, statens budget, skatter│
+│, statlig förvaltning, finansmarknad och konsumentpolitik."})         │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Departement {namn: "Försvarsdepartementet",beskrivning: "Departement│
+│et ansvarar för frågor om Sveriges militära försvar, samordning av civ│
+│ilt försvar och samhällets krisberedskap samt skydd mot olyckor. Depar│
+│tementet planerar på strategisk nivå internationella insatser och säke│
+│rhetsfrämjande verksamhet och ger uppdrag till myndigheterna att genom│
+│föra samt följa upp dessa insatser."})                                │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Departement {namn: "Justitiedepartementet",beskrivning: "Departement│
+│et ansvarar för rättsväsendet, asyl- och migrationsfrågor, grundlagar,│
+│ civilrätt med mera."})                                               │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Departement {namn: "Klimat- och näringslivsdepartementet",beskrivnin│
+│g: "Departementet arbetar med frågor som rör klimat, miljö, energi, nä│
+│ringsliv och innovation och ansvarar för strålsäkerhet, friluftsliv oc│
+│h omställningen till cirkulär ekonomi."})                             │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Departement {namn: "Kulturdepartementet",beskrivning: "Departementet│
+│ ansvarar för frågor som rör kultur, demokrati, medier, de nationella │
+│minoriteterna och det samiska folkets språk och kultur."})            │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Departement {namn: "Landsbygds- och infrastrukturdepartementet",besk│
+│rivning: "Departementet ansvarar för frågor som rör landsbygd, livsmed│
+│el och areella näringar, regional utveckling, transporter och infrastr│
+│uktur samt bostäder och samhällsplanering."})                         │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Departement {namn: "Socialdepartementet",beskrivning: "Departementet│
+│ ansvarar för frågor om social omsorg, sjukvård och socialförsäkring."│
+│})                                                                    │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Departement {namn: "Utbildningsdepartementet",beskrivning: "Departem│
+│entet ansvarar för regeringens utbildnings- och forskningspolitik."}) │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Departement {namn: "Utrikesdepartementet",beskrivning: "Utrikesdepar│
+│tementet och utlandsmyndigheterna ansvarar för Sveriges utrikes-, bist│
+│ånds- och handelspolitik."})                                          │
+└──────────────────────────────────────────────────────────────────────┘
+
+
+//De olika “områdena” - namn och beskrivning:
+
+neo4j$ MATCH (n:Omrade) RETURN n
+══════════════════════════════════════════════════════════════════════╕
+│n                                                                     │
+╞══════════════════════════════════════════════════════════════════════╡
+│(:Omrade {namn: "EU-frågor",beskrivning: "Frågor som rör Sveriges rela│
+│tioner med EU och dess medlemsländer."})                              │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Nordiska frågor",beskrivning: "Frågor som rör de nord│
+│iska ländernas samarbete och relationer."})                           │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Arbetsmarknad",beskrivning: "Frågor som rör arbetsmar│
+│knadens struktur, sysselsättning och arbetslöshet."})                 │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Arbetsrätt och arbetsmiljö",beskrivning: "Frågor som │
+│rör arbetsrätt, anställningsförhållanden, arbetsmiljölagar och säkerhe│
+│tsbestämmelser."})                                                    │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Integration",beskrivning: "Frågor om hur människor so│
+│m kommer till Sverige ska integreras i samhället och arbetsmarknaden."│
+│})                                                                    │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Arbete mot utanförskap",beskrivning: "Frågor som hand│
+│lar om att minska och motverka utanförskap och skapa inkludering i sam│
+│hället."})                                                            │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Jämställdhet",beskrivning: "Frågor som rör jämställdh│
+│et mellan kvinnor och män, både på arbetsmarknaden och i samhället."})│
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Arbetet mot mäns våld mot kvinnor",beskrivning: "Arbe│
+│te för att minska och motverka våld mot kvinnor i nära relationer och │
+│förtryck i olika former."})                                           │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Mänskliga rättigheter",beskrivning: "Arbete för att f│
+│rämja och skydda mänskliga rättigheter på nationell nivå."})          │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Ekonomisk politik",beskrivning: "Frågor som rör state│
+│ns ekonomiska politik och styrning av ekonomin."})                    │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Skatt och tull",beskrivning: "Frågor som rör statens │
+│beskattning, tullsystem och skattepolitik."})                         │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Statens budget",beskrivning: "Frågor som rör förvaltn│
+│ing och fastställande av statens budget."})                           │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Bolag med statligt ägande",beskrivning: "Frågor om st│
+│atligt ägda bolag och deras verksamhet."})                            │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Kommuner och regioner",beskrivning: "Frågor som rör k│
+│ommuner och regioner, och deras samarbete med staten."})              │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Offentlig upphandling",beskrivning: "Frågor om staten│
+│s och andra offentliga myndigheters upphandlingar."})                 │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Digitalisering",beskrivning: "Frågor som rör digitali│
+│sering av offentlig förvaltning och digitala tjänster."})             │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Konsumentfrågor",beskrivning: "Frågor om skydd av kon│
+│sumenter och konsumentpolitik."})                                     │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Finansmarknad",beskrivning: "Frågor om Sveriges finan│
+│smarknad och dess reglering."})                                       │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Spelfrågor",beskrivning: "Frågor om spelreglering och│
+│ policy för spelindustrin."})                                         │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Fastighetsfrågor",beskrivning: "Frågor om fastighetsm│
+│arknaden och fastighetsreglering."})                                  │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Militärt försvar",beskrivning: "Frågor som rör det mi│
+│litära försvaret och landets försvarsförmåga."})                      │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Krisberedskap",beskrivning: "Frågor som rör samhället│
+│s förmåga att hantera och förebygga kriser och katastrofer."})        │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Civilt försvar",beskrivning: "Frågor om civilt försva│
+│r och samhällets förmåga att stå emot och hantera olika hot och kriser│
+│."})                                                                  │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Internationella insatser",beskrivning: "Frågor som rö│
+│r Sveriges deltagande i internationella militära och säkerhetsfrämjand│
+│e insatser."})                                                        │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Försvar",beskrivning: "Frågor som rör Sveriges militä│
+│ra försvar och säkerhetsfrågor."})                                    │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Allmän ordning och säkerhet",beskrivning: "Frågor om │
+│allmän ordning och säkerhet i samhället."})                           │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Brottsförebyggande frågor",beskrivning: "Frågor om at│
+│t förebygga brott och säkerställa trygghet."})                        │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Brottsofferfrågor",beskrivning: "Frågor som rör rätti│
+│gheter och stöd för brottsoffer."})                                   │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Civilrätt",beskrivning: "Frågor som rör civilrätt, så│
+│som avtalsrätt och familjerätt."})                                    │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Domstolar och kriminalvård",beskrivning: "Frågor om d│
+│omstolsväsendet och kriminalvård."})                                  │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Grundlagar",beskrivning: "Frågor som rör Sveriges gru│
+│ndlagar och konstitution."})                                          │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Internationellt rättsligt samarbete",beskrivning: "Fr│
+│ågor som rör Sveriges internationella rättsliga samarbeten."})        │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Polis",beskrivning: "Frågor som rör polisen och polis│
+│ens arbete."})                                                        │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Processrätt",beskrivning: "Frågor om processrätt och │
+│rättsprocesser."})                                                    │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Rättsväsendet",beskrivning: "Frågor om rättsväsendets│
+│ funktion och organisation."})                                        │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Straffrätt",beskrivning: "Frågor om straffrätt och br│
+│ottmål."})                                                            │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Åklagare",beskrivning: "Frågor som rör åklagare och å│
+│tal."})                                                               │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Näringsliv",beskrivning: "Frågor som rör näringslivet│
+│ och företagande i Sverige."})                                        │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Innovation",beskrivning: "Frågor om innovation, tekno│
+│logisk utveckling och nya affärsmodeller."})                          │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Energi",beskrivning: "Frågor som rör energi, energifö│
+│rsörjning och omställning till förnybar energi."})                    │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Miljö",beskrivning: "Frågor om miljöskydd och hållbar│
+│het."})                                                               │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Klimat",beskrivning: "Frågor om klimatförändringar oc│
+│h klimatpolitik."})                                                   │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Kultur",beskrivning: "Frågor som rör kulturarv, konst│
+│ och kulturell utveckling."})                                         │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Demokrati",beskrivning: "Frågor som rör demokratins u│
+│tveckling och skydd av demokratiska rättigheter."})                   │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Medier",beskrivning: "Frågor om medier, pressfrihet o│
+│ch journalistik."})                                                   │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "De nationella minoriteterna",beskrivning: "Frågor som│
+│ rör de nationella minoriteternas rättigheter och kultur."})          │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Det samiska folkets språk och kultur",beskrivning: "F│
+│rågor som rör det samiska folkets språk, kultur och rättigheter."})   │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Landsbygd",beskrivning: "Frågor som rör landsbygdens │
+│utveckling och befolkning."})                                         │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Livsmedel",beskrivning: "Frågor som rör livsmedelspro│
+│duktion och livsmedelsförsörjning."})                                 │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Areella näringar",beskrivning: "Frågor om jordbruk, s│
+│kogsbruk och andra näringar knutna till naturresurser."})             │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Regional utveckling",beskrivning: "Frågor som rör utv│
+│eckling och växtkraft i landets regioner."})                          │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Transporter",beskrivning: "Frågor som rör transportin│
+│frastruktur och logistik."})                                          │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Infrastruktur",beskrivning: "Frågor om byggande, unde│
+│rhåll och utveckling av infrastrukturen."})                           │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Bostäder",beskrivning: "Frågor om bostadsbyggande och│
+│ bostadspolitik."})                                                   │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Samhällsplanering",beskrivning: "Frågor som rör samhä│
+│llsstruktur och planering av offentliga och privata utrymmen."})      │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Folkhälsa",beskrivning: "Frågor som rör folkhälsa, sj│
+│ukdomsförebyggande åtgärder och hälsosam livsstil."})                 │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Tandvård",beskrivning: "Frågor som rör tandvård och o│
+│ral hälsa."})                                                         │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Psykiatri",beskrivning: "Frågor om psykiatrisk vård o│
+│ch mental hälsa."})                                                   │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Idrott",beskrivning: "Frågor om fysisk aktivitet och │
+│idrottslig verksamhet."})                                             │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Civilsamhälle och trossamfund",beskrivning: "Frågor o│
+│m civilsamhällets utveckling och trossamfundens verksamhet."})        │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Hälsa och sjukvård",beskrivning: "Frågor om sjukvård │
+│och hälsovård, inklusive primärvård och specialistvård."})            │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Äldrefrågor",beskrivning: "Frågor som rör äldre och ä│
+│ldreomsorg."})                                                        │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Socialförsäkringar",beskrivning: "Frågor om socialför│
+│säkringssystemet, inklusive pensioner, arbetslöshetsersättning och sju│
+│kpenning."})                                                          │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Ekonomiskt bistånd",beskrivning: "Frågor om ekonomisk│
+│t stöd och hjälp till behövande."})                                   │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Socialtjänst",beskrivning: "Frågor om socialtjänstens│
+│ arbete, inklusive stöd för utsatta och hjälp till familjer."})       │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Funktionshinder",beskrivning: "Frågor om personer med│
+│ funktionsnedsättning och deras rättigheter och stöd."})              │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Barnets rättigheter",beskrivning: "Frågor om barnens │
+│rättigheter och skydd av barn i samhället."})                         │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Forskning och högre utbildning",beskrivning: "Frågor │
+│som rör forskning och högre utbildning, inklusive universitet och högs│
+│kolor."})                                                             │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Vuxenutbildning",beskrivning: "Frågor om utbildning f│
+│ör vuxna, inklusive yrkesutbildning och studieprogram."})             │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Gymnasieskola och anpassad gymnasieskola",beskrivning│
+│: "Frågor om gymnasieskolan och alternativ utbildning för ungdomar med│
+│ särskilda behov."})                                                  │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Folkbildning",beskrivning: "Frågor om folkbildning oc│
+│h studieförbundens verksamhet."})                                     │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Rymdfrågor",beskrivning: "Frågor om rymdpolitik, rymd│
+│forskning och internationellt samarbete inom rymdteknik."})           │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Studiefinansiering",beskrivning: "Frågor om studielån│
+│, stipendier och andra former av stöd för studenter."})               │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Förskola",beskrivning: "Frågor som rör förskoleverksa│
+│mheten och tidig barndomsutbildning."})                               │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Förskoleklass",beskrivning: "Frågor om den obligatori│
+│ska förskoleklassen för sexåringar."})                                │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Fritidshem",beskrivning: "Frågor om fritidsverksamhet│
+│ och omsorg för barn efter skolan."})                                 │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Grundskola",beskrivning: "Frågor om grundskolans verk│
+│samhet och organisation."})                                           │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Anpassad grundskola",beskrivning: "Frågor om utbildni│
+│ng i anpassad grundskola för elever med särskilda behov."})           │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Specialskola",beskrivning: "Frågor om utbildning i sp│
+│ecialskola för elever med särskilda behov."})                         │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Sameskola",beskrivning: "Frågor om utbildning i sames│
+│kola för samiska elever."})                                           │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Demokrati och mänskliga rättigheter",beskrivning: "Fr│
+│ågor om demokrati, mänskliga rättigheter och politiska friheter på int│
+│ernationell nivå."})                                                  │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Folkrätt",beskrivning: "Frågor om internationell rätt│
+│, inklusive folkrätten och internationella avtal."})                  │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Utrikes- och säkerhetspolitik",beskrivning: "Frågor o│
+│m Sveriges utrikespolitik och säkerhet, inklusive internationella rela│
+│tioner och fredsarbete."})                                            │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Internationellt utvecklingsarbete",beskrivning: "Fråg│
+│or om Sveriges biståndspolitik och internationellt utvecklingsarbete."│
+│})                                                                    │
+├──────────────────────────────────────────────────────────────────────┤
+│(:Omrade {namn: "Handelspolitik och främjande",beskrivning: "Frågor om│
+│ handelspolitik, export och Sveriges roll i internationella handelsavt│
+│al."})                                                                │
+└──────────────────────────────────────────────────────────────────────┘
+
+
+
+Relationer
+
+// 1  Vilka minister tillhör vilket department?
+MATCH (m:Minister)-[:TILLHOR]->(d:Departement)
+RETURN m.namn AS minister, d.namn AS departement
+╒═════════════════════════════╤════════════════════════════════════════════╕
+│minister                     │departement                                 │
+╞═════════════════════════════╪════════════════════════════════════════════╡
+│"Jessica Rosencrantz"        │"Statsrådsberedningen"                      │
+├─────────────────────────────┼────────────────────────────────────────────┤
+│"Mats Persson"               │"Arbetsmarknadsdepartementet"               │
+├─────────────────────────────┼────────────────────────────────────────────┤
+│"Paulina Brandberg"          │"Arbetsmarknadsdepartementet"               │
+├─────────────────────────────┼────────────────────────────────────────────┤
+│"Elisabeth Svantesson"       │"Finansdepartementet"                       │
+├─────────────────────────────┼────────────────────────────────────────────┤
+│"Erik Slottner"              │"Finansdepartementet"                       │
+├─────────────────────────────┼────────────────────────────────────────────┤
+│"Niklas Wykman"              │"Finansdepartementet"                       │
+├─────────────────────────────┼────────────────────────────────────────────┤
+│"Pål Jonson"                 │"Försvarsdepartementet"                     │
+├─────────────────────────────┼────────────────────────────────────────────┤
+│"Carl-Oskar Bohlin"          │"Försvarsdepartementet"                     │
+├─────────────────────────────┼────────────────────────────────────────────┤
+│"Gunnar Strömmer"            │"Justitiedepartementet"                     │
+├─────────────────────────────┼────────────────────────────────────────────┤
+│"Johan Forssell"             │"Justitiedepartementet"                     │
+├─────────────────────────────┼────────────────────────────────────────────┤
+│"Ebba Busch"                 │"Klimat- och näringslivsdepartementet"      │
+├─────────────────────────────┼────────────────────────────────────────────┤
+│"Romina Pourmokhtari"        │"Klimat- och näringslivsdepartementet"      │
+├─────────────────────────────┼────────────────────────────────────────────┤
+│"Parisa Liljestrand"         │"Kulturdepartementet"                       │
+├─────────────────────────────┼────────────────────────────────────────────┤
+│"Peter Kullgren"             │"Landsbygds- och infrastrukturdepartementet"│
+├─────────────────────────────┼────────────────────────────────────────────┤
+│"Andreas Carlson"            │"Landsbygds- och infrastrukturdepartementet"│
+├─────────────────────────────┼────────────────────────────────────────────┤
+│"Jakob Forssmed"             │"Socialdepartementet"                       │
+├─────────────────────────────┼────────────────────────────────────────────┤
+│"Acko Ankarberg Johansson"   │"Socialdepartementet"                       │
+├─────────────────────────────┼────────────────────────────────────────────┤
+│"Anna Tenje"                 │"Socialdepartementet"                       │
+├─────────────────────────────┼────────────────────────────────────────────┤
+│"Camilla Waltersson Grönvall"│"Socialdepartementet"                       │
+├─────────────────────────────┼────────────────────────────────────────────┤
+│"Johan Pehrson"              │"Utbildningsdepartementet"                  │
+├─────────────────────────────┼────────────────────────────────────────────┤
+│"Lotta Edholm"               │"Utbildningsdepartementet"                  │
+├─────────────────────────────┼────────────────────────────────────────────┤
+│"Maria Malmer Stenergard"    │"Utrikesdepartementet"                      │
+├─────────────────────────────┼────────────────────────────────────────────┤
+│"Benjamin Dousa"             │"Utrikesdepartementet"                      │
+└─────────────────────────────┴────────────────────────────────────────────┘
+
+//Vilka områden har en  minister ansvar för?
+MATCH (m:Minister)-[:ANSVARAR_FOR]->(o:Omrade)
+WHERE m.namn = 'Pål Jonson'  // Byt ut med ministernamn
+RETURN o.namn AS 
+╒══════════════════════════╕
+│omrade                    │
+╞══════════════════════════╡
+│"Militärt försvar"        │
+├──────────────────────────┤
+│"Internationella insatser"│
+├──────────────────────────┤
+│"Försvar"                 │
+└────────────────────────
+
+//Vilka områden har ett viss department ansvar för?
+MATCH (d:Departement)-[:ANSVARAR_FOR]->(o:Omrade)
+WHERE d.namn = 'Försvarsdepartementet'  // Byt ut med departementets namn
+RETURN o.namn AS omrade
+╒══════════════════════════╕
+│omrade                    │
+╞══════════════════════════╡
+│"Militärt försvar"        │
+├──────────────────────────┤
+│"Krisberedskap"           │
+├──────────────────────────┤
+│"Civilt försvar"          │
+├──────────────────────────┤
+│"Internationella insatser"│
+├──────────────────────────┤
+│"Försvar"                 │
+└──────────────────────────┘
+
+
+Kontrollera din databas
+//Hitta alla ministrar som tillhör ett visst parti.
+MATCH (m:Minister)-[:ÄR_MEMBER_I]->(p:Parti)
+WHERE p.namn = 'Kristdemokraterna'
+RETURN m.namn AS minister
+══════════════════════════╕
+│minister                  │
+╞══════════════════════════╡
+│"Erik Slottner"           │
+├──────────────────────────┤
+│"Ebba Busch"              │
+├──────────────────────────┤
+│"Peter Kullgren"          │
+├──────────────────────────┤
+│"Andreas Carlson"         │
+├──────────────────────────┤
+│"Jakob Forssmed"          │
+├──────────────────────────┤
+│"Acko Ankarberg Johansson"│
+└──────────────────────────┘
+
+//Hitta alla ministrar som tillhör ett visst department.
+MATCH (m:Minister)-[:TILLHOR]->(d:Departement)
+WHERE d.namn ='Utbildningsdepartementet'
+RETURN m.namn AS minister
+══════════════╕
+│minister       │
+╞═══════════════╡
+│"Johan Pehrson"│
+├───────────────┤
+│"Lotta Edholm" │
+└───────────────┘
+
+
+//Hitta alla områden som ett visst department har ansvar för.
+MATCH (d:Departement)-[:ANSVARAR_FOR]->(o:Omrade)
+WHERE d.namn = 'Försvarsdepartementet'
+RETURN o.namn AS omrade
+╒══════════════════════════╕
+│omrade                    │
+╞══════════════════════════╡
+│"Militärt försvar"        │
+├──────────────────────────┤
+│"Krisberedskap"           │
+├──────────────────────────┤
+│"Civilt försvar"          │
+├──────────────────────────┤
+│"Internationella insatser"│
+├──────────────────────────┤
+│"Försvar"                 │
+└──────────────────────────┘
+
+//Hitta alla områden en viss minister har ansvar för.
+MATCH (m:Minister)-[:ANSVARAR_FOR]->(o:Omrade)
+WHERE m.namn = 'Pål Jonson'
+RETURN o.namn AS omrade
+╒══════════════════════════╕
+│omrade                    │
+╞══════════════════════════╡
+│"Militärt försvar"        │
+├──────────────────────────┤
+│"Internationella insatser"│
+├──────────────────────────┤
+│"Försvar"                 │
+└──────────────────────────┘
+
+
+//Hitta vilket department som har ansvar för ett visst område.
+MATCH (d:Departement)-[:ANSVARAR_FOR]->(o:Omrade)
+WHERE o.namn = 'Försvar' // Byt till en annan departament för att ta reda på.
+RETURN DISTINCT d.namn AS departement
+╒═══════════════════════╕
+│departement            │
+╞═══════════════════════╡
+│"Försvarsdepartementet"│
+└───────────────────────┘
+
+//Hitta vilken minister som har ansvar för ett visst område.
+MATCH (m:Minister)-[:ANSVARAR_FOR]->(o:Omrade)
+WHERE o.namn = 'Försvar' // Byt till en annan område för att ta redapå
+RETURN m.namn AS minister
+╒════════════╕
+│minister    │
+╞════════════╡
+│"Pål Jonson"│
+└────────────┘
+
+
+DEL 2
+
+//Vilket department styrs av yngsta respektive äldsta ministrar?
+MATCH (m:Minister)
+WHERE m.födelsedag IS NOT NULL
+WITH m, date().year - toInteger(substring(m.födelsedag, 0, 4)) AS ålder
+RETURN m.namn, ålder, m.partitillhorighet
+ORDER BY ålder ASC // För att få den yngsta
+______________________________________________________________________
+	m.namn	                ålder	              m.partitillhorighet
+_______________________________________________________________________	
+"Romina Pourmokhtari"	     30	                   "Liberalerna"
+_______________________________________________________________________
+
+
+
+//Byt "ASC"  till "DESC" för att få den äldsta i en annan fråga genom att ordna efter ålder .
+________________________________________________________________________
+m.namn	               ålder	       m.partitillhorighet
+________________________________________________________________________
+"Ulf Kristersson"	    62	            "Moderaterna"
+________________________________________________________________________
+
+Fråga/sök upp
+Ta fram en lista över departmeneten och medelålder på varje departements ministrar.
+Ordna listan från lägsta till högsta medelålder.
+MATCH (m:Minister)-[:TILLHOR]->(d:Departement)
+WHERE m.födelsedag IS NOT NULL
+WITH d, AVG(toFloat(date().year - toInteger(substring(m.födelsedag, 0, 4)))) AS medelålder
+RETURN d.namn AS departement, medelålder
+ORDER BY medelålder ASC
+╒════════════════════════════════════════════╤══════════════════╕
+│departement                                 │medelålder        │
+╞════════════════════════════════════════════╪══════════════════╡
+│"Klimat- och näringslivsdepartementet"      │34.0              │
+├────────────────────────────────────────────┼──────────────────┤
+│"Statsrådsberedningen"                      │38.0              │
+├────────────────────────────────────────────┼──────────────────┤
+│"Utrikesdepartementet"                      │38.5              │
+├────────────────────────────────────────────┼──────────────────┤
+│"Kulturdepartementet"                       │42.0              │
+├────────────────────────────────────────────┼──────────────────┤
+│"Landsbygds- och infrastrukturdepartementet"│42.5              │
+├────────────────────────────────────────────┼──────────────────┤
+│"Arbetsmarknadsdepartementet"               │43.5              │
+├────────────────────────────────────────────┼──────────────────┤
+│"Försvarsdepartementet"                     │46.0              │
+├────────────────────────────────────────────┼──────────────────┤
+│"Finansdepartementet"                       │49.0              │
+├────────────────────────────────────────────┼──────────────────┤
+│"Justitiedepartementet"                     │53.0              │
+├────────────────────────────────────────────┼──────────────────┤
+│"Socialdepartementet"                       │53.3
+├────────────────────────────────────────────┼──────────────────┤
+│"Utbildningsdepartementet"                  │58.5              │
+└────────────────────────────────────────────┴──────────────────
+
+Decennier
+//Skapa en nod för varje decennium (från det decennium den äldsta ministern är född under, till det decennium den yngsta politikerna är född under.). 
+//Varje deccenium ska ha ett egenskaperna namn (t.ex. ‘1970-talet’), startår (t.ex. 1970) och slutår (t.ex. 1979), samt - om du vill - en kort beskrivning av decenniet.
+
+
+MATCH (n:Decennium) RETURN n 
+╒════════════════════════════════════════════════════════════╕
+│n                                                           │
+╞════════════════════════════════════════════════════════════╡
+│(:Decennium {slutår: 1969,startår: 1960,namn: "1960-talet"})│
+├────────────────────────────────────────────────────────────┤
+│(:Decennium {slutår: 1979,startår: 1970,namn: "1970-talet"})│
+├────────────────────────────────────────────────────────────┤
+│(:Decennium {slutår: 1989,startår: 1980,namn: "1980-talet"})│
+├────────────────────────────────────────────────────────────┤
+│(:Decennium {slutår: 1999,startår: 1990,namn: "1990-talet"})│
+└────────────────────────────────────────────────────────────┘
+
+//Skapa relationer mellan ministrarna och decennierna. Relationen är riktad (“född under”).
+
+MATCH (m:Minister)
+WHERE m.födelsedag IS NOT NULL
+WITH m, toInteger(substring(m.födelsedag, 0, 4)) AS födelseår
+MATCH (d:Decennium)
+WHERE födelseår >= d.startår AND födelseår <= d.slutår
+MERGE (m)-[:FÖDD_UNDER]->(d)
+
+
+Frågor/sök upp
+//Kan du visa vilka politiker som är födda under ett visst decennium?
+MATCH (m:Minister)-[:FÖDD_UNDER]->(d:Decennium)
+WHERE d.namn = '1970-talet'  // Här kan du byta ut till vilket decennium du vill
+RETURN m.namn, d.namn AS decennium
+════════════════╤════════════╕
+│m.namn           │decennium   │
+╞═════════════════╪════════════╡
+│"Pål Jonson"     │"1970-talet"│
+├─────────────────┼────────────┤
+│"Gunnar Strömmer"│"1970-talet"│
+├─────────────────┼────────────┤
+│"Johan Forssell" │"1970-talet"│
+├─────────────────┼────────────┤
+│"Jakob Forssmed" │"1970-talet"│
+├─────────────────┼────────────┤
+│"Anna Tenje"     │"1970-talet"│
+└─────────────────┴────────────┘
+
+
+//Under vilket decennier föddes flest av L-ministrarna? 
+MATCH (m:Minister)-[:FÖDD_UNDER]->(d:Decennium)
+WHERE m.partitillhorighet IN ['Liberalerna']//Bytt till 'KD', 'M'
+WITH m.partitillhorighet AS parti, d.namn AS decennium, COUNT(m) AS antal_ministrar
+ORDER BY antal_ministrar DESC
+RETURN parti, decennium, antal_ministrar
+
+╒═════════════╤════════════╤═══════════════╕
+│parti        │decennium   │antal_ministrar│
+╞═════════════╪════════════╪═══════════════╡
+│"Liberalerna"│"1980-talet"│2              │
+├─────────────┼────────────┼───────────────┤
+│"Liberalerna"│"1960-talet"│2              │
+├─────────────┼────────────┼───────────────┤
+│"Liberalerna"│"1990-talet"│1              │
+└─────────────┴────────────┴───────────────┘
+
+//Flest av KD-ministrarna?
+╒═══════════════════╤════════════╤═══════════════╕
+│parti              │decennium   │antal_ministrar│
+╞═══════════════════╪════════════╪═══════════════╡
+│"Kristdemokraterna"│"1980-talet"│4              │
+├───────────────────┼────────────┼───────────────┤
+│"Kristdemokraterna"│"1970-talet"│1              │
+├───────────────────┼────────────┼───────────────┤
+│"Kristdemokraterna"│"1960-talet"│1              │
+└───────────────────┴────────────┴───────────────┘
+
+ Flest av M-ministrarna.
+ ╒═════════════╤════════════╤═══════════════╕
+│parti        │decennium   │antal_ministrar│
+╞═════════════╪════════════╪═══════════════╡
+│"Moderaterna"│"1980-talet"│5              │
+├─────────────┼────────────┼───────────────┤
+│"Moderaterna"│"1970-talet"│4              │
+├─────────────┼────────────┼───────────────┤
+│"Moderaterna"│"1960-talet"│2              │
+├─────────────┼────────────┼───────────────┤
+│"Moderaterna"│"1990-talet"│1              │
+└─────────────┴────────────┴───────────────┘
+
+
+
+//Skapa relationer mellan partierna “politiskt närmast” så att L och KD binds ihop och KD och M binds ihop. 
+//Denna typ av relation är inte riktat. (Även om många anser att vänster-högerskalan inom politiken är ett trubbigt mått, brukar man för det partier som sitter i regeringen ordna dem från vänster till höger så här: L - KD - M.)
+
+MATCH (l:Parti {namn: "Liberalerna"}), (kd:Parti {namn: "Kristdemokraterna"}), (m:Parti {namn: "Moderaterna"})
+MERGE (l)-[:POLITISKT_NÄRMEST]->(kd)
+MERGE (kd)-[:POLITISKT_NÄRMEST]->(m)
+
+//Skapa sedan relationer som binder ihop varje minister med sitt parti (“är medlem i”). Denna typ av relation är riktad.
+
+Frågor/sök upp
+Hur letar du fram/visar:
+
+//Alla ministrar inom ett visst parti?
+MATCH (m:Minister)-[:ÄR_MEMBER_I]->(p:Parti)
+WHERE p.namn = 'Liberalerna'
+RETURN m.namn AS minister
+╒═════════════════════╕
+│minister             │
+╞═════════════════════╡
+│"Mats Persson"       │
+├─────────────────────┤
+│"Paulina Brandberg"  │
+├─────────────────────┤
+│"Romina Pourmokhtari"│
+├─────────────────────┤
+│"Johan Pehrson"      │
+├─────────────────────┤
+│"Lotta Edholm"       │
+└─────────────────────┘
+
+//Avståndet mellan olika partier (0 till 2).
+MATCH (p1:Parti)-[:POLITISKT_NÄRMEST]-(p2:Parti)
+RETURN p1.namn AS parti1, p2.namn AS parti2
+╒═══════════════════╤═══════════════════╕
+│parti1             │parti2             │
+╞═══════════════════╪═══════════════════╡
+│"Liberalerna"      │"Kristdemokraterna"│
+├───────────────────┼───────────────────┤
+│"Kristdemokraterna"│"Liberalerna"      │
+├───────────────────┼───────────────────┤
+│"Kristdemokraterna"│"Moderaterna"      │
+├───────────────────┼───────────────────┤
+│"Moderaterna"      │"Kristdemokraterna"│
+└───────────────────┴───────────────────┘
+
+
+//Går det att ordna departmenten på vänster-högerskalan utifrån vilka partier deras ministrar är med i?
+MATCH (m:Minister)-[:TILLHOR]->(d:Departement), (m)-[:ÄR_MEMBER_I]->(p:Parti)
+WITH d, AVG(p.politisk_position) AS medel_position
+ORDER BY medel_position
+RETURN d.namn AS departement, medel_position
+════════════════════════════════════════════╤══════════════════╕
+│departement                                 │medel_position    │
+╞════════════════════════════════════════════╪══════════════════╡
+│"Arbetsmarknadsdepartementet"               │0.0               │
+├────────────────────────────────────────────┼──────────────────┤
+│"Utbildningsdepartementet"                  │0.0               │
+├────────────────────────────────────────────┼──────────────────┤
+│"Klimat- och näringslivsdepartementet"      │0.5               │
+├────────────────────────────────────────────┼──────────────────┤
+│"Landsbygds- och infrastrukturdepartementet"│1.0               │
+├────────────────────────────────────────────┼──────────────────┤
+│"Socialdepartementet"                       │1.5               │
+├────────────────────────────────────────────┼──────────────────┤
+│"Finansdepartementet"                       │1.6666666666666667│
+├────────────────────────────────────────────┼──────────────────┤
+│"Statsrådsberedningen"                      │2.0               │
+├────────────────────────────────────────────┼──────────────────┤
+│"Försvarsdepartementet"                     │2.0               │
+├────────────────────────────────────────────┼──────────────────┤
+│"Justitiedepartementet"                     │2.0               │
+├────────────────────────────────────────────┼──────────────────┤
+│"Kulturdepartementet"                       │2.0               │
+├────────────────────────────────────────────┼──────────────────┤
+│"Utrikesdepartementet"                      │2.0               │
+└────────────────────────────────────────────┴──────────────────┘
+
+
+//Kan du även lista de politiska avståndet mellan olika ministrar utifrån avståndet mellan partier? Hur?
+
+MATCH (m1:Minister)-[:ÄR_MEMBER_I]->(p1:Parti), (m2:Minister)-[:ÄR_MEMBER_I]->(p2:Parti)
+WHERE m1 <> m2
+MATCH (p1)-[:POLITISKT_NÄRMEST]-(p2)
+RETURN m1.namn AS minister1, m2.namn AS minister2, p1.namn AS parti1, p2.namn AS parti2
+
+╒═════════════════════════════╤═════════════════════════════╤═══════════════════╤═══════════════════╕
+│minister1                    │minister2                    │parti1             │parti2             │
+╞═════════════════════════════╪═════════════════════════════╪═══════════════════╪═══════════════════╡
+│"Mats Persson"               │"Erik Slottner"              │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Paulina Brandberg"          │"Erik Slottner"              │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Romina Pourmokhtari"        │"Erik Slottner"              │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Johan Pehrson"              │"Erik Slottner"              │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Lotta Edholm"               │"Erik Slottner"              │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Mats Persson"               │"Ebba Busch"                 │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Paulina Brandberg"          │"Ebba Busch"                 │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Romina Pourmokhtari"        │"Ebba Busch"                 │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Johan Pehrson"              │"Ebba Busch"                 │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Lotta Edholm"               │"Ebba Busch"                 │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Mats Persson"               │"Peter Kullgren"             │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Paulina Brandberg"          │"Peter Kullgren"             │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Romina Pourmokhtari"        │"Peter Kullgren"             │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Johan Pehrson"              │"Peter Kullgren"             │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Lotta Edholm"               │"Peter Kullgren"             │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Mats Persson"               │"Andreas Carlson"            │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Paulina Brandberg"          │"Andreas Carlson"            │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Romina Pourmokhtari"        │"Andreas Carlson"            │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Johan Pehrson"              │"Andreas Carlson"            │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Lotta Edholm"               │"Andreas Carlson"            │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Mats Persson"               │"Jakob Forssmed"             │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Paulina Brandberg"          │"Jakob Forssmed"             │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Romina Pourmokhtari"        │"Jakob Forssmed"             │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Johan Pehrson"              │"Jakob Forssmed"             │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Lotta Edholm"               │"Jakob Forssmed"             │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Mats Persson"               │"Acko Ankarberg Johansson"   │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Paulina Brandberg"          │"Acko Ankarberg Johansson"   │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Romina Pourmokhtari"        │"Acko Ankarberg Johansson"   │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Johan Pehrson"              │"Acko Ankarberg Johansson"   │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Lotta Edholm"               │"Acko Ankarberg Johansson"   │"Liberalerna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Erik Slottner"              │"Mats Persson"               │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Ebba Busch"                 │"Mats Persson"               │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Peter Kullgren"             │"Mats Persson"               │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Andreas Carlson"            │"Mats Persson"               │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Jakob Forssmed"             │"Mats Persson"               │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Acko Ankarberg Johansson"   │"Mats Persson"               │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Erik Slottner"              │"Paulina Brandberg"          │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Ebba Busch"                 │"Paulina Brandberg"          │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Peter Kullgren"             │"Paulina Brandberg"          │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Andreas Carlson"            │"Paulina Brandberg"          │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Jakob Forssmed"             │"Paulina Brandberg"          │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Acko Ankarberg Johansson"   │"Paulina Brandberg"          │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Erik Slottner"              │"Romina Pourmokhtari"        │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Ebba Busch"                 │"Romina Pourmokhtari"        │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Peter Kullgren"             │"Romina Pourmokhtari"        │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Andreas Carlson"            │"Romina Pourmokhtari"        │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Jakob Forssmed"             │"Romina Pourmokhtari"        │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Acko Ankarberg Johansson"   │"Romina Pourmokhtari"        │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Erik Slottner"              │"Johan Pehrson"              │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Ebba Busch"                 │"Johan Pehrson"              │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Peter Kullgren"             │"Johan Pehrson"              │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Andreas Carlson"            │"Johan Pehrson"              │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Jakob Forssmed"             │"Johan Pehrson"              │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Acko Ankarberg Johansson"   │"Johan Pehrson"              │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Erik Slottner"              │"Lotta Edholm"               │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Ebba Busch"                 │"Lotta Edholm"               │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Peter Kullgren"             │"Lotta Edholm"               │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Andreas Carlson"            │"Lotta Edholm"               │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Jakob Forssmed"             │"Lotta Edholm"               │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Acko Ankarberg Johansson"   │"Lotta Edholm"               │"Kristdemokraterna"│"Liberalerna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Erik Slottner"              │"Ulf Kristersson"            │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Ebba Busch"                 │"Ulf Kristersson"            │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Peter Kullgren"             │"Ulf Kristersson"            │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Andreas Carlson"            │"Ulf Kristersson"            │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Jakob Forssmed"             │"Ulf Kristersson"            │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Acko Ankarberg Johansson"   │"Ulf Kristersson"            │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Erik Slottner"              │"Jessica Rosencrantz"        │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Ebba Busch"                 │"Jessica Rosencrantz"        │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Peter Kullgren"             │"Jessica Rosencrantz"        │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Andreas Carlson"            │"Jessica Rosencrantz"        │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Jakob Forssmed"             │"Jessica Rosencrantz"        │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Acko Ankarberg Johansson"   │"Jessica Rosencrantz"        │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Erik Slottner"              │"Elisabeth Svantesson"       │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Ebba Busch"                 │"Elisabeth Svantesson"       │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Peter Kullgren"             │"Elisabeth Svantesson"       │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Andreas Carlson"            │"Elisabeth Svantesson"       │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Jakob Forssmed"             │"Elisabeth Svantesson"       │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Acko Ankarberg Johansson"   │"Elisabeth Svantesson"       │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Erik Slottner"              │"Niklas Wykman"              │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Ebba Busch"                 │"Niklas Wykman"              │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Peter Kullgren"             │"Niklas Wykman"              │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Andreas Carlson"            │"Niklas Wykman"              │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Jakob Forssmed"             │"Niklas Wykman"              │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Acko Ankarberg Johansson"   │"Niklas Wykman"              │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Erik Slottner"              │"Pål Jonson"                 │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Ebba Busch"                 │"Pål Jonson"                 │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Peter Kullgren"             │"Pål Jonson"                 │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Andreas Carlson"            │"Pål Jonson"                 │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Jakob Forssmed"             │"Pål Jonson"                 │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Acko Ankarberg Johansson"   │"Pål Jonson"                 │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Erik Slottner"              │"Carl-Oskar Bohlin"          │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Ebba Busch"                 │"Carl-Oskar Bohlin"          │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Peter Kullgren"             │"Carl-Oskar Bohlin"          │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Andreas Carlson"            │"Carl-Oskar Bohlin"          │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Jakob Forssmed"             │"Carl-Oskar Bohlin"          │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Acko Ankarberg Johansson"   │"Carl-Oskar Bohlin"          │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Erik Slottner"              │"Gunnar Strömmer"            │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Ebba Busch"                 │"Gunnar Strömmer"            │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Peter Kullgren"             │"Gunnar Strömmer"            │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Andreas Carlson"            │"Gunnar Strömmer"            │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Jakob Forssmed"             │"Gunnar Strömmer"            │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Acko Ankarberg Johansson"   │"Gunnar Strömmer"            │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Erik Slottner"              │"Johan Forssell"             │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Ebba Busch"                 │"Johan Forssell"             │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Peter Kullgren"             │"Johan Forssell"             │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Andreas Carlson"            │"Johan Forssell"             │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Jakob Forssmed"             │"Johan Forssell"             │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Acko Ankarberg Johansson"   │"Johan Forssell"             │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Erik Slottner"              │"Parisa Liljestrand"         │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Ebba Busch"                 │"Parisa Liljestrand"         │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Peter Kullgren"             │"Parisa Liljestrand"         │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Andreas Carlson"            │"Parisa Liljestrand"         │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Jakob Forssmed"             │"Parisa Liljestrand"         │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Acko Ankarberg Johansson"   │"Parisa Liljestrand"         │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Erik Slottner"              │"Anna Tenje"                 │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Ebba Busch"                 │"Anna Tenje"                 │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Peter Kullgren"             │"Anna Tenje"                 │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Andreas Carlson"            │"Anna Tenje"                 │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Jakob Forssmed"             │"Anna Tenje"                 │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Acko Ankarberg Johansson"   │"Anna Tenje"                 │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Erik Slottner"              │"Camilla Waltersson Grönvall"│"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Ebba Busch"                 │"Camilla Waltersson Grönvall"│"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Peter Kullgren"             │"Camilla Waltersson Grönvall"│"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Andreas Carlson"            │"Camilla Waltersson Grönvall"│"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Jakob Forssmed"             │"Camilla Waltersson Grönvall"│"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Acko Ankarberg Johansson"   │"Camilla Waltersson Grönvall"│"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Erik Slottner"              │"Maria Malmer Stenergard"    │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Ebba Busch"                 │"Maria Malmer Stenergard"    │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Peter Kullgren"             │"Maria Malmer Stenergard"    │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Andreas Carlson"            │"Maria Malmer Stenergard"    │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Jakob Forssmed"             │"Maria Malmer Stenergard"    │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Acko Ankarberg Johansson"   │"Maria Malmer Stenergard"    │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Erik Slottner"              │"Benjamin Dousa"             │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Ebba Busch"                 │"Benjamin Dousa"             │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Peter Kullgren"             │"Benjamin Dousa"             │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Andreas Carlson"            │"Benjamin Dousa"             │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Jakob Forssmed"             │"Benjamin Dousa"             │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Acko Ankarberg Johansson"   │"Benjamin Dousa"             │"Kristdemokraterna"│"Moderaterna"      │
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Ulf Kristersson"            │"Erik Slottner"              │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Jessica Rosencrantz"        │"Erik Slottner"              │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Elisabeth Svantesson"       │"Erik Slottner"              │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Niklas Wykman"              │"Erik Slottner"              │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Pål Jonson"                 │"Erik Slottner"              │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Carl-Oskar Bohlin"          │"Erik Slottner"              │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Gunnar Strömmer"            │"Erik Slottner"              │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Johan Forssell"             │"Erik Slottner"              │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Parisa Liljestrand"         │"Erik Slottner"              │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Anna Tenje"                 │"Erik Slottner"              │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Camilla Waltersson Grönvall"│"Erik Slottner"              │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Maria Malmer Stenergard"    │"Erik Slottner"              │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Benjamin Dousa"             │"Erik Slottner"              │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Ulf Kristersson"            │"Ebba Busch"                 │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Jessica Rosencrantz"        │"Ebba Busch"                 │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Elisabeth Svantesson"       │"Ebba Busch"                 │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Niklas Wykman"              │"Ebba Busch"                 │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Pål Jonson"                 │"Ebba Busch"                 │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Carl-Oskar Bohlin"          │"Ebba Busch"                 │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Gunnar Strömmer"            │"Ebba Busch"                 │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Johan Forssell"             │"Ebba Busch"                 │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Parisa Liljestrand"         │"Ebba Busch"                 │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Anna Tenje"                 │"Ebba Busch"                 │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Camilla Waltersson Grönvall"│"Ebba Busch"                 │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Maria Malmer Stenergard"    │"Ebba Busch"                 │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Benjamin Dousa"             │"Ebba Busch"                 │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Ulf Kristersson"            │"Peter Kullgren"             │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Jessica Rosencrantz"        │"Peter Kullgren"             │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Elisabeth Svantesson"       │"Peter Kullgren"             │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Niklas Wykman"              │"Peter Kullgren"             │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Pål Jonson"                 │"Peter Kullgren"             │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Carl-Oskar Bohlin"          │"Peter Kullgren"             │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Gunnar Strömmer"            │"Peter Kullgren"             │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Johan Forssell"             │"Peter Kullgren"             │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Parisa Liljestrand"         │"Peter Kullgren"             │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Anna Tenje"                 │"Peter Kullgren"             │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Camilla Waltersson Grönvall"│"Peter Kullgren"             │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Maria Malmer Stenergard"    │"Peter Kullgren"             │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Benjamin Dousa"             │"Peter Kullgren"             │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Ulf Kristersson"            │"Andreas Carlson"            │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Jessica Rosencrantz"        │"Andreas Carlson"            │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Elisabeth Svantesson"       │"Andreas Carlson"            │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Niklas Wykman"              │"Andreas Carlson"            │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Pål Jonson"                 │"Andreas Carlson"            │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Carl-Oskar Bohlin"          │"Andreas Carlson"            │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Gunnar Strömmer"            │"Andreas Carlson"            │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Johan Forssell"             │"Andreas Carlson"            │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Parisa Liljestrand"         │"Andreas Carlson"            │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Anna Tenje"                 │"Andreas Carlson"            │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Camilla Waltersson Grönvall"│"Andreas Carlson"            │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Maria Malmer Stenergard"    │"Andreas Carlson"            │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Benjamin Dousa"             │"Andreas Carlson"            │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Ulf Kristersson"            │"Jakob Forssmed"             │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Jessica Rosencrantz"        │"Jakob Forssmed"             │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Elisabeth Svantesson"       │"Jakob Forssmed"             │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Niklas Wykman"              │"Jakob Forssmed"             │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Pål Jonson"                 │"Jakob Forssmed"             │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Carl-Oskar Bohlin"          │"Jakob Forssmed"             │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Gunnar Strömmer"            │"Jakob Forssmed"             │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Johan Forssell"             │"Jakob Forssmed"             │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Parisa Liljestrand"         │"Jakob Forssmed"             │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Anna Tenje"                 │"Jakob Forssmed"             │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Camilla Waltersson Grönvall"│"Jakob Forssmed"             │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Maria Malmer Stenergard"    │"Jakob Forssmed"             │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Benjamin Dousa"             │"Jakob Forssmed"             │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Ulf Kristersson"            │"Acko Ankarberg Johansson"   │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Jessica Rosencrantz"        │"Acko Ankarberg Johansson"   │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Elisabeth Svantesson"       │"Acko Ankarberg Johansson"   │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Niklas Wykman"              │"Acko Ankarberg Johansson"   │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Pål Jonson"                 │"Acko Ankarberg Johansson"   │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Carl-Oskar Bohlin"          │"Acko Ankarberg Johansson"   │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Gunnar Strömmer"            │"Acko Ankarberg Johansson"   │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Johan Forssell"             │"Acko Ankarberg Johansson"   │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Parisa Liljestrand"         │"Acko Ankarberg Johansson"   │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Anna Tenje"                 │"Acko Ankarberg Johansson"   │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Camilla Waltersson Grönvall"│"Acko Ankarberg Johansson"   │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Maria Malmer Stenergard"    │"Acko Ankarberg Johansson"   │"Moderaterna"      │"Kristdemokraterna"│
+├─────────────────────────────┼─────────────────────────────┼───────────────────┼───────────────────┤
+│"Benjamin Dousa"             │"Acko Ankarberg Johansson"   │"Moderaterna"      │"Kristdemokraterna"│
+└─────────────────────────────┴─────────────────────────────┴───────────────────┴───────────────────┘
+Benereta Hoxha 
